@@ -1,12 +1,13 @@
-
-import { motion } from "framer-motion";
-import profile  from "../assets/img/profile.jpg";
+// src/components/Members.tsx
+import { motion, useAnimation } from "framer-motion";
+import { useEffect } from "react";
+import profile from "../assets/img/profile.jpg";
 
 const members = [
   {
     name: "Aliyu Muhammadu Babangida",
     title: "CEO & Founder",
-    image: profile, 
+    image: profile,
   },
   {
     name: "John Doe",
@@ -31,6 +32,22 @@ const members = [
 ];
 
 export default function Members() {
+  const controls = useAnimation();
+
+  // Auto-scroll effect
+  useEffect(() => {
+    const loop = async () => {
+      while (true) {
+        await controls.start({
+          x: "-100%",
+          transition: { duration: 30, ease: "linear" },
+        });
+        await controls.start({ x: 0, transition: { duration: 0 } }); // reset instantly
+      }
+    };
+    loop();
+  }, [controls]);
+
   return (
     <section
       id="members"
@@ -43,32 +60,34 @@ export default function Members() {
         <p className="text-gray-400 mt-2">The people behind Ghunaghost</p>
       </div>
 
-      {/* Marquee Effect */}
-      <motion.div
-        className="flex gap-8"
-        initial={{ x: "100%" }}
-        animate={{ x: "-100%" }}
-        transition={{ repeat: Infinity, duration: 50, ease: "linear" }}
-      >
-        {[...members, ...members].map((member, index) => (
-          <div
-            key={index}
-            className="min-w-[220px] bg-gray-800 rounded-xl shadow-lg overflow-hidden"
-          >
-            <img
-              src={member.image}
-              alt={member.name}
-              className="w-full h-48 object-cover"
-            />
-            <div className="p-4 text-center">
-              <h3 className="text-lg font-semibold text-blue-400">
-                {member.name}
-              </h3>
-              <p className="text-gray-300 text-sm">{member.title}</p>
+      {/* Auto-scroll + draggable */}
+      <div className="overflow-hidden">
+        <motion.div
+          className="flex gap-8 cursor-grab active:cursor-grabbing"
+          animate={controls}
+          drag="x"
+          dragConstraints={{ left: -1000, right: 0 }} // tweak left value based on items
+        >
+          {[...members, ...members].map((member, index) => (
+            <div
+              key={index}
+              className="min-w-[220px] bg-gray-800 rounded-xl shadow-lg overflow-hidden"
+            >
+              <img
+                src={member.image}
+                alt={member.name}
+                className="w-full h-48 object-cover"
+              />
+              <div className="p-4 text-center">
+                <h3 className="text-lg font-semibold text-blue-400">
+                  {member.name}
+                </h3>
+                <p className="text-gray-300 text-sm">{member.title}</p>
+              </div>
             </div>
-          </div>
-        ))}
-      </motion.div>
+          ))}
+        </motion.div>
+      </div>
     </section>
   );
 }
