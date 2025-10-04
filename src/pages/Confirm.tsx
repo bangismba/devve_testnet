@@ -87,15 +87,6 @@ export default function Confirm() {
           </pre>
         </div>
 
-        {/* Back Link */}
-        <div className="text-center mt-4">
-          <a
-            href="/login"
-            className="text-sm text-blue-600 hover:underline hover:text-blue-700"
-          >
-            Back to Login
-          </a>
-        </div>
       </div>
     </div>
   );

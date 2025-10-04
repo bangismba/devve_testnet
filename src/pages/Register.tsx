@@ -108,17 +108,6 @@ export default function Register() {
         <div className="mt-6 bg-gray-900 text-gray-300 text-sm rounded-lg p-3 font-mono overflow-auto max-h-40">
           <pre>{msg ? JSON.stringify(msg, null, 2) : "No response yet"}</pre>
         </div>
-
-        {/* Footer */}
-        <div className="text-center mt-6 text-gray-400 text-sm">
-          Already have an account?{" "}
-          <a
-            href="/login"
-            className="text-blue-400 hover:underline hover:text-blue-300"
-          >
-            Login
-          </a>
-        </div>
       </div>
     </div>
   );
